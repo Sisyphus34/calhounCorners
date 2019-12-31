@@ -1,0 +1,14 @@
+endpoint: https://us1.prisma.sh/shawn-picardy-1b06b8/calhounCorners/dev
+datamodel: datamodel.graphql
+
+generate:
+  - generator: typescript-client
+    output: ../generated/prisma-client/
+
+hooks:
+  post-deploy:
+    - npx prisma generate
+    - npx nexus-prisma-generate --client ./generated/prisma-client --output ./generated/nexus-prisma
+
+seed:
+  run: npx ts-node-dev --no-notify --transpileOnly ./seed/index
